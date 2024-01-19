@@ -26,7 +26,12 @@ router.post("/register",async(req,res)=>{
     discription:req.body.discription
   })
   await userModel.register(userdata,req.body.password)
-  res.redirect("/profile")
+  .then((registereduser)=>{
+    passport.authenticate('local')(req,res,()=>{
+      res.redirect("/profile")
+    })
+  })
+  // res.redirect("/profile")
 })
 
 router.post('/login',passport.authenticate('local', {
